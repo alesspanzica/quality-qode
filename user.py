@@ -1,3 +1,4 @@
+<<<<<<< HEAD:User.py
 '''
 User()
 This is the class that represents the User object. All fields are required 
@@ -20,6 +21,7 @@ when a user is registering.
     User() methods:
         update_pic(): Allows the user to update their profile photo.
         update_bio(): Allows the user to update their bio in their profile. 
+        __str__(): Used to get the name of a user profile. 
 '''
 class User:
     bio = ""
@@ -41,3 +43,6 @@ class User:
 
     def update_bio(bio):
       self.bio = bio
+
+    def __str__(self):
+      return format(self.name)  

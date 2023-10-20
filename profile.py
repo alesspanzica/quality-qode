@@ -5,6 +5,14 @@ required for the user to input when a task is created except for the
 'assigned_to' field, which can be updated at any time (this is more
 related to the backend design).
 
+Profile()
+This is the class that represents the Profile object. 
+
+    Profile() attributes:
+
+    Profile() methods:
+
+
     Task() attributes:
         task_name: name of the task [STRING]
         assigned_project: project ID this task is part of [INTEGER]
@@ -21,23 +29,21 @@ related to the backend design).
 
 """
 
-class Profile_Page:
-    None
+'''class User():
+    def __init__(self):
+    self.username = ""
+    self.name = ""
+    self.phone_number = ""
+    self.address = ""
+    self.email = ""
+    self.position = ""
+    self.manager = ""
+    self.bio = ""
+    self.picture  = ""
+'''
+from user import User
 
 class Profile:
-    def __init__(self):
-        self.username = ""
-        self.name = ""
-        self.phone_number = ""
-        self.address = ""
-        self.email = ""
-        self.position = ""
-        self.manager = ""
-        self.bio = ""
-        
-    def __str__(self):
-        return format(self.name)
-
     def Load(username):
         users = []
         try: 
@@ -64,11 +70,13 @@ def CLI(dict):
             for property, value in vardict:
                 print(property, ":" , value)
             inp3 = input("What field would you like to change?\n")
-            inp4 = input("Enter new value:\n")
-            if inp3 is property in vardict:
-                
+            
+            if inp3 is property in vardict: #broken
+                inp4 = input("Enter new value:\n")
+                property.value = inp4
             else:
                 print("Unrecognized Input.")
+                
             ProfilePage(profile, dict)
         else:
             print("Unrecognized Input.")
@@ -81,7 +89,7 @@ def CLI(dict):
     
 
 def main():
-    person = Profile()
+    person = User()
     person.username = "a1"
     person.name = "Jim"
     person.phonenumber =  "33333"

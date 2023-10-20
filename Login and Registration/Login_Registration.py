@@ -51,7 +51,7 @@ class Registration:
     Function to let users login to their account.
     Input: User's username and password
     Output: If login is successful, the user will be 
-    taken to the hopepage of the software.
+    taken to the homepage of the software.
     '''
     def login():
         users = {} #To store all username and password combos

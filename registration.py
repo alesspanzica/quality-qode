@@ -2,14 +2,16 @@
 Registration()
 This is the class that controls the user's registration and login information. 
 
-Registration() attributes:
-This class has no attributes of its's own. This class will extend and use all 
-attributes from the User Class.
+    Registration() attributes:
+        This class has no attributes of its's own. This class will extend and use all 
+        attributes from the User Class.
 
-Registration() methods: 
-register(): Takes in user information and allows them to create a new account.
-login(): Allows user to login with a username and password. 
+    Registration() methods: 
+        register(): Takes in user information and allows them to create a new account.
+        login(): Allows user to login with a username and password. 
 '''
+from user import User 
+
 class Registration:
     '''
     Function to let new users register
@@ -41,12 +43,20 @@ class Registration:
         if unique_user in users and users[unique_user] == unique_pass:
             print("Please set up your user details: ")
             #Get general info from user
-            first_name = input( "Enter First Name: ")
-            last_name = input( "Enter Last Name: ")
+            name = input( "Enter Name: ")
             username = input( "Enter Username: ")
             password = input("Enter a Password: ")
+            phone_number = input("Enter your phone number: ")
+            address = input("Enter your address: ")
+            email = input("Enter your position: ")
+
             #User will be assigned a position rank from the unique login 
             #they were given to login with
+            #Creates new user object with information the user inputs.
+            new_user= User(username, name, phone_number, address, 
+                email, "position", "manager", password)
+            #Position and manager are hardcoded at the moment since no backend is
+            # implemented yet.            
     
         #Check if username already exists
         if username in users:
@@ -88,7 +98,7 @@ include 1 or 2 via the keyboard.
 Output: Users will be directed to the page of their choosing,
 either login page or registration page.
 '''
-def main():
+def reg_main():
     choice = input("To Register, Press 1 \nTo Login, Press 2\n")
     if choice == "1":
         Registration.register()
@@ -99,4 +109,4 @@ def main():
 
     
 if __name__ == "__main__":
-    main()
+    reg_main()

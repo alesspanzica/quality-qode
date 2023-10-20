@@ -1,0 +1,75 @@
+class Profile_Page:
+    None
+
+class Profile:
+    def __init__(self):
+        self.username = ""
+        self.name = ""
+        self.phone_number = ""
+        self.address = ""
+        self.email = ""
+        self.position = ""
+        self.manager = ""
+        self.bio = ""
+        
+    def __str__(self):
+        return format(self.name)
+    
+    def __dict__(self):
+        
+
+    def Load(username):
+        users = []
+        try: 
+            with open("users.txt", "r") as file:
+                for line in file:
+                    username, passw, name, phonenumber, address, email, position, manager, bio = line.strip().split(":")
+                    users[username] = passw
+        except: None
+
+
+def CLI(dict):
+    temp = list(dict.keys())
+    inp = input("Actions: View : " + str(temp) + "\n")
+    def ProfilePage(profile, dict):
+        inp2 = input("Actions: View or Edit " + str(profile) + ", or type 'Back' to return to Profiles List\n")
+        if inp2 == "Back":
+            CLI(dict)
+        elif inp2 ==  "View":
+            for property, value in vars(profile):
+                print(value, ":")
+            ProfilePage(profile, dict)
+        elif inp2 == "Edit":
+            for property, value in vars(profile):
+                print(property, ":")
+                ProfilePage(profile, dict)
+            inp3 = input("What field would you like to change?\n")
+            inp4 = input("Enter new value:\n")
+            globals()[inp3] = inp4
+            ProfilePage(profile, dict)
+    
+    if inp in temp:
+        ProfilePage(inp, dict)
+    else:
+        print("Unrecognized Input.")
+        CLI(dict)
+
+
+def main():
+    person = Profile()
+    person.username = "a1"
+    person.name = "Jim"
+    person.phonenumber =  "33333"
+    person.address = "3 Teirgarten Avenue"
+    person.email = "s"
+    person.position = "d"
+    #person.manager
+    person.bio = ""
+    allprofiles = {str(person):person}
+    CLI(allprofiles)
+    allprofiles.keys()
+    view = input("username, passw, name, phonenumber, address, email, position, manager, bio")
+
+
+if __name__ == "__main__":
+    main()

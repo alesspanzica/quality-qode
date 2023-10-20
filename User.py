@@ -8,3 +8,4 @@ class User():
       self.position = ""
       self.manager = ""
       self.bio = ""
+      self.picture = ""

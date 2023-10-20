@@ -1,6 +1,15 @@
-#Class to store registration and login actions
-#Will extend User class
-#Will extend User_Profile class
+'''
+Registration()
+This is the class that controls the user's registration and login information. 
+
+Registration() attributes:
+This class has no attributes of its's own. This class will extend and use all 
+attributes from the User Class.
+
+Registration() methods: 
+register(): Takes in user information and allows them to create a new account.
+login(): Allows user to login with a username and password. 
+'''
 class Registration:
     '''
     Function to let new users register
@@ -20,7 +29,7 @@ class Registration:
         except FileNotFoundError:
             pass
         '''
-        Generic user and password for now
+        Generic user and password. This will be used when backend is implemented.
         Each new user will be given a unique temporary login. 
         This will allow them access to their company's login page
         to register.

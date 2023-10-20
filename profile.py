@@ -16,6 +16,7 @@ This is the class that represents the Profile object.
 from user import User
 
 class Profile:
+    user_profiles = None
 
     def profile_page(profile, dict):
         inp2 = input("Actions: View or Edit " + str(profile) + ", or type 'Back' to return to Profiles List\n") #CLI input

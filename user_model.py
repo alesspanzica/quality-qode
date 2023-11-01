@@ -1,5 +1,5 @@
 from sqlalchemy import Column, Integer, String
-from sqlalchemy.orm import declarative_base
+from sqlalchemy.ext.declarative import declarative_base
 
 Base = declarative_base()
 
@@ -15,6 +15,17 @@ class User(Base):
     email = Column(String)
     position = Column(String)
     manager = Column(String)
+
+    def __init__(self, username, password, name, 
+                 phone_number, address, email, position, manager):
+        self.username = username
+        self.password = password
+        self.anme = name
+        self.phone_number = phone_number
+        self.address = address
+        self.email = email
+        self.position = position
+        self.manager = manager
 
 
 

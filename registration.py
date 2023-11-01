@@ -13,7 +13,7 @@ This is the class that controls the user's registration and login information.
 from user import User 
 from sqlalchemy.orm import Session
 from database import createSession
-from user_model import User
+from user_model import User as UserModel
 
 class Registration:
     '''
@@ -27,9 +27,9 @@ class Registration:
         password = input("Enter a Password: ")
 
         #Checks if username and password entered match. 
-        session = Session()
-        user = session.query(User).filter(User.username == username,
-                                          User.password == password).first()
+        session = createSession()
+        user = session.query(UserModel).filter(UserModel.username == username,
+                                          UserModel.password == password).first()
         session.close()
         if user:
             print("Login Successful.")
@@ -56,15 +56,15 @@ class Registration:
         email = input("Enter your email: ")
 
         #Checks if this username is already in use
-        session = Session()
-        exsiting_user = session.query(User).filter(User.username == username).first()
+        session = createSession()
+        exsiting_user = session.query(UserModel).filter(UserModel.username == username).first()
         if exsiting_user:
             print("Username already exists. Please choose another.")
             session.close()
             username = input( "Enter Username: ")
         #Creates a new User object and inserts it into the database table.
         else:
-            new_user = User(
+            new_user = UserModel(
                 username = username,
                 password = password,
                 name=name,

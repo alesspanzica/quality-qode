@@ -11,8 +11,32 @@ This is the class that controls the user's registration and login information.
         login(): Allows user to login with a username and password. 
 '''
 from user import User 
+from sqlalchemy.orm import Session
+from database import createSession
+from user_model import User
 
 class Registration:
+    '''
+    Function to let users login to their account.
+    Input: User's username and password
+    Output: If login is successful, the user will be 
+    taken to the homepage of the software.
+    '''
+    def login():
+        username = input("Enter Username: ")
+        password = input("Enter a Password: ")
+
+        #Checks if username and password entered match. 
+        session = Session()
+        user = session.query(User).filter(User.username == username,
+                                          User.password == password).first()
+        session.close()
+        if user:
+            print("Login Successful.")
+        else:
+            print("Login Failed. Check username and password.")
+            Registration.login() #Recalls login() to have user enter their details again
+
     '''
     Function to let new users register
     Input: Currently users only need to enter their first name, last name, chosen username
@@ -22,73 +46,41 @@ class Registration:
     password to login and set up their own account. 
     '''
     def register():
-        users = {} #To store all username and password combos
-        try: #Currently storing user info in a txt file, can figure out details later
-            with open("users.txt", "r") as file:
-                for line in file:
-                    user, passw = line.strip().split(":")
-                    users[user] = passw
-        except FileNotFoundError:
-            pass
-        '''
-        Generic user and password. This will be used when backend is implemented.
-        Each new user will be given a unique temporary login. 
-        This will allow them access to their company's login page
-        to register.
-        '''
-        unique_user = "user2"
-        unique_pass = "pass2"
-        users[unique_user] = unique_pass #Store the given user and pass
-
-        if unique_user in users and users[unique_user] == unique_pass:
-            print("Please set up your user details: ")
-            #Get general info from user
-            name = input( "Enter Name: ")
-            username = input( "Enter Username: ")
-            password = input("Enter a Password: ")
-            phone_number = input("Enter your phone number: ")
-            address = input("Enter your address: ")
-            email = input("Enter your position: ")
-
-            #User will be assigned a position rank from the unique login 
-            #they were given to login with
-            #Creates new user object with information the user inputs.
-            new_user= User(username, name, phone_number, address, 
-                email, "position", "manager", password)
-            #Position and manager are hardcoded at the moment since no backend is
-            # implemented yet.            
-    
-        #Check if username already exists
-        if username in users:
-            print("Username already exists. Please choose another username.")
-        else:
-            users[username] = password #Store username and password
-            print("Registration successful! Please login")
-            Registration.login()
-    
-    '''
-    Function to let users login to their account.
-    Input: User's username and password
-    Output: If login is successful, the user will be 
-    taken to the homepage of the software.
-    '''
-    def login():
-        users = {} #To store all username and password combos
-        try: 
-            with open("users.txt", "r") as file:
-                for line in file:
-                    user, passw = line.strip().split(":")
-                    users[user] = passw
-        except FileNotFoundError:
-            print("No users Registered")
-            return 
-        
+        print("Please set up your user details: ")
+        #Get general info from user
+        name = input( "Enter Name: ")
         username = input( "Enter Username: ")
         password = input("Enter a Password: ")
-        if username in users and users[username] == password:
-            print("Login Successful.")
+        phone_number = input("Enter your phone number: ")
+        address = input("Enter your address: ")
+        email = input("Enter your email: ")
+
+        #Checks if this username is already in use
+        session = Session()
+        exsiting_user = session.query(User).filter(User.username == username).first()
+        if exsiting_user:
+            print("Username already exists. Please choose another.")
+            session.close()
+            username = input( "Enter Username: ")
+        #Creates a new User object and inserts it into the database table.
         else:
-            print("Login Failed. Check username and password.")
+            new_user = User(
+                username = username,
+                password = password,
+                name=name,
+                phone_number=phone_number,
+                address=address,
+                email=email,
+                position="position",
+                manager="manager"
+            )
+            session.add(new_user) #Add new user info to table
+            session.commit()
+            session.close()
+
+        print("Registration successful! Please log in.")
+        Registration.login()
+
 
 #Login or Register Selection
 '''

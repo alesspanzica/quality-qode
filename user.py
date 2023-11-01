@@ -1,4 +1,4 @@
-<<<<<<< HEAD:User.py
+#<<<<<<< HEAD:User.py
 '''
 User()
 This is the class that represents the User object. All fields are required 
@@ -38,10 +38,10 @@ class User:
       self.manager = manager
       self.password = password
 
-    def update_pic(pic_filename):
+    def update_pic(self, pic_filename):
       self.picture_filename = pic_filename
 
-    def update_bio(bio):
+    def update_bio(self, bio):
       self.bio = bio
 
     def __str__(self):

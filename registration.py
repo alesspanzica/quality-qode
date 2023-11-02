@@ -14,6 +14,7 @@ from user import User
 from sqlalchemy.orm import Session
 from database import createSession
 from user_model import User as UserModel
+from getpass import getpass
 
 class Registration:
     '''
@@ -24,7 +25,7 @@ class Registration:
     '''
     def login():
         username = input("Enter Username: ")
-        password = input("Enter a Password: ")
+        password = getpass("Enter a Password: ") #Blurred password
 
         #Checks if username and password entered match. 
         session = createSession()
@@ -50,7 +51,7 @@ class Registration:
         #Get general info from user
         name = input( "Enter Name: ")
         username = input( "Enter Username: ")
-        password = input("Enter a Password: ")
+        password = input("Enter a Password: ")#Not blurred so user can verify password
         phone_number = input("Enter your phone number: ")
         address = input("Enter your address: ")
         email = input("Enter your email: ")

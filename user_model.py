@@ -20,7 +20,7 @@ class User(Base):
                  phone_number, address, email, position, manager):
         self.username = username
         self.password = password
-        self.anme = name
+        self.name = name
         self.phone_number = phone_number
         self.address = address
         self.email = email

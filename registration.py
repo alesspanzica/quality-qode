@@ -13,8 +13,9 @@ This is the class that controls the user's registration and login information.
 from user import User 
 from sqlalchemy.orm import Session
 from database import createSession
-from user_model import User as UserModel
+from model import User as UserModel
 from getpass import getpass
+import random
 
 class Registration:
     '''
@@ -55,6 +56,23 @@ class Registration:
         phone_number = input("Enter your phone number: ")
         address = input("Enter your address: ")
         email = input("Enter your email: ")
+        group = random.randrange(1, 6)
+        position = random.randrange(1,6)
+        
+        #Get manager based off group assignment
+        if group == 1:
+            manager = "Emily Johnson"
+        elif group == 2:
+            manager = "Samuel Patel"
+        elif group == 3:
+            manager = "Sarah Mitchell"
+        elif group == 4:
+            manager = "James Rodriguez"
+        else:
+            manager = "Olivia Wilson"
+        
+        print("Based on your email, you've been assigned to group ", group, 
+              "Your manager is ", manager, ", and your rank is ", position, ".")
 
         #Checks if this username is already in use
         session = createSession()
@@ -72,8 +90,8 @@ class Registration:
                 phone_number=phone_number,
                 address=address,
                 email=email,
-                position="position",
-                manager="manager"
+                position=position,
+                manager=manager
             )
             session.add(new_user) #Add new user info to table
             session.commit()

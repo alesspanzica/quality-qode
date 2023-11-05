@@ -53,13 +53,13 @@ class Task:
         task: a task object that system will print details of [TASK()] 
     """
     def print_task_details(task):
-        print("Task Name: " + task.task_name)
-        print("Assigned Project: " + task.assigned_project)
-        print("Priority: " + task.priority)
-        print("Capability Level: " + str(task.capability_level))
-        print("Project Deadline: " + task.deadline)
-        print("Who is completing the task: " + task.assigned_to)
-        print("Portion of Project: " + str(task.project_portion))
+        print("Task Name: " , task.task_name)
+        print("Assigned Project: " , str(task.assigned_project))
+        print("Priority: " , task.priority)
+        print("Capability Level: " , str(task.capability_level))
+        print("Project Deadline: " , task.deadline)
+        print("Who is completing the task: " , task.assigned_to)
+        print("Portion of Project: " , str(task.project_portion))
 
     """
     assign_task(self, assigned_to): will update the assigned_to attribute and

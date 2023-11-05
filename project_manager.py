@@ -45,7 +45,7 @@ class ProjectManager:
         owner = input("Enter the username of the project's manager: ")
         tasks = list()
 
-        self.append(Project(project_name, project_id, deadline, priority, owner, tasks))
+        self.projects.append(Project(project_name, project_id, deadline, priority, owner, tasks))
     
     """
     print_projects(self): Prints the names of the projects in the project list.
@@ -96,7 +96,7 @@ if __name__ == "__main__":
         user_input = input("Enter the ID of the project you want to view and add tasks to. To create a project, enter C: ")
 
         if user_input == 'C':
-            ProjectManager.create_project()
+            project_list.create_project()
             print("Project Created!")
             print()
 
@@ -123,7 +123,7 @@ if __name__ == "__main__":
                     print("Exiting Projects Page, returning to homepage.")
                     break
                 else:
-                    current_proj.tasks[int(user_input)-1].print_task_details
+                    current_proj.tasks[int(user_input)-1].print_task_details()
 
         else:
             print()

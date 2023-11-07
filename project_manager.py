@@ -40,27 +40,9 @@ class ProjectManager:
         deadline = input("Project Deadline (DD-MM-YYYY): ")
         priority = input("Priority: ")
         owner = input("Enter the username of the project's manager: ")
+        tasks = list()
 
-        session = createSession()
-        exisiting_proj = session.query(ProjectModel).filter(ProjectModel.project_id == project_id).first()
-
-        if exisiting_proj:
-            print("Project already exists. Please use another project ID and make a different project.")
-            session.close()
-            project_name = input( "Enter Project ID: ")
-        #Creates a new User object and inserts it into the database table.
-        else:
-            new_project = ProjectModel(
-                project_name = project_name,
-                project_id = project_id,
-                deadline = deadline,
-                priority = priority,
-                owner = owner,
-                tasks = list()
-            )
-            session.add(new_project) #Add new user info to table
-            session.commit()
-            session.close()
+        self.append(Project(project_name, project_id, deadline, priority, owner, tasks))
     
     """
     print_projects(self): Prints the names of the projects in the project list.
@@ -132,7 +114,7 @@ def project_main():
         user_input = ProjectManager.print_projects()
 
         if user_input == 'C':
-            ProjectManager.create_project()
+            project_list.create_project()
             print("Project Created!")
             print()
 
@@ -172,7 +154,10 @@ def project_main():
                         session.close()
                         break
                 else:
-                    print("\nPlease enter a proper input. Try again.")
+                    current_proj.tasks[int(user_input)-1].print_task_details
 
-if __name__ == "__main__":
-    project_main()
+        else:
+            print()
+            print("Please enter a proper input. Try again.")
+    
+

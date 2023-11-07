@@ -34,10 +34,13 @@ class Registration:
                                           UserModel.password == password).first()
         session.close()
         if user:
+            print()
             print("Login Successful.")
+            return username
         else:
+            print()
             print("Login Failed. Check username and password.")
-            Registration.login() #Recalls login() to have user enter their details again
+            return Registration.login() #Recalls login() to have user enter their details again
 
     '''
     Function to let new users register
@@ -50,12 +53,12 @@ class Registration:
     def register():
         print("Please set up your user details: ")
         #Get general info from user
-        name = input( "Enter Name: ")
-        username = input( "Enter Username: ")
-        password = input("Enter a Password: ")#Not blurred so user can verify password
-        phone_number = input("Enter your phone number: ")
-        address = input("Enter your address: ")
-        email = input("Enter your email: ")
+        name = input("  Enter Name: ")
+        username = input( "  Enter Username: ")
+        password = input("  Enter a Password: ")#Not blurred so user can verify password
+        phone_number = input("  Enter your phone number: ")
+        address = input("  Enter your address: ")
+        email = input("  Enter your email: ")
         group = random.randrange(1, 6)
         position = random.randrange(1,6)
         
@@ -98,7 +101,7 @@ class Registration:
             session.close()
 
         print("Registration successful! Please log in.")
-        Registration.login()
+        return Registration.login()
 
 
 #Login or Register Selection
@@ -112,12 +115,11 @@ either login page or registration page.
 def reg_main():
     choice = input("To Register, Press 1 \nTo Login, Press 2\n")
     if choice == "1":
-        Registration.register()
+        return Registration.register()
     elif choice == "2":
-        Registration.login()
+        return Registration.login()
     else:
         print("Invalid selection")
 
-    
 if __name__ == "__main__":
     reg_main()

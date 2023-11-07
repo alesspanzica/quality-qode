@@ -18,6 +18,11 @@ Project object will include Tasks associated. Note all fields are required for t
         create_task(self): creates a new instance of the Task object and appends it to this instance of the Project object's list of tasks attribute
 """
 from task import Task
+from sqlalchemy.orm import Session
+from database import createSession
+
+from model import Task as TaskModel
+from model import Project as ProjModel
 
 class Project:
     project_name = ""
@@ -25,7 +30,7 @@ class Project:
     deadline = ""
     priority = 0
     owner = ""
-    tasks = list()
+    num_of_tasks = 0
     
     """
     __init__(...): Paramaterized constructor for the Project class. When called, it initializes the 
@@ -35,28 +40,34 @@ class Project:
         all the attributes described at the top of this class (see comment above)
 
     """
-    def __init__(self, project_name, project_id, deadline, priority, owner, tasks):
+    def __init__(self, project_name, project_id, deadline, priority, owner, num_of_tasks):
         self.project_name = project_name
         self.project_id = project_id
         self.deadline = deadline
         self.priority = priority
         self.owner = owner
-        self.tasks = tasks
+        self.num_of_tasks = num_of_tasks
     
     """
-    print_tasks(project): Prints the names of the tasks assigned to this project.
+    print_tasks(project_id): Prints the names of the tasks assigned to this project.
 
     parameters:
         project: a Project object that system will print the tasks of [PROJECT()] 
     """
-    def print_tasks(project):
-        if bool(project.tasks):
-            count = 1
-            for i in project.tasks:
-                print("     Task " + str(count) + ": " + i.task_name)
-                count = count + 1
+    def print_tasks(project_id):
+        session = createSession()
+        tasks = session.query(TaskModel.task_name).filter(TaskModel.assigned_project == project_id).all()
+        
+        if tasks:
+            print(tasks)
+            '''#
+            for row in tasks:
+                print("\n     Task " + str(row.task_num_in_project) + ": " + row.task_name)
+            '''
         else:
-            print("No Tasks yet.")
+            print("\nNo Tasks yet.")
+
+        session.close()
     
     """
     print_project_details(task): Prints all of the project attributes in clear format.
@@ -65,13 +76,13 @@ class Project:
         proj: a Project object that system will print details of [PROJECTS()] 
     """
     def print_project_details(proj):
-        print("Project Name: " + proj.project_name)
+        print("\nProject Name: " + proj.project_name)
         print("Project ID: " + str(proj.project_id))
         print("Project Deadline: " + proj.deadline)
         print("Project Priority: " + proj.priority)
         print("Project Manager: " + proj.owner)
-        print("All assigned tasks: ")
-        Project.print_tasks(proj)
+        print("All " + str(proj.num_of_tasks) + " assigned tasks: ")
+        Project.print_tasks(proj.project_id)
 
     """
     create_tasks(self): Prompts user input for a new task added to the current instance of the Project.
@@ -80,16 +91,40 @@ class Project:
         self: the current instance of the Project object in this class
     """
     def create_task(self):
-        print("Please enter task details: ")
+        print("\nPlease enter task details: ")
 
-        task_name = input("Enter the name of the task: ")
-        assigned_project = input("Provide the ID of the Project this task is assigned to (numeric): ")
-        priority = input("Priority? (Enter High, Medium, or Low): ")
-        capability_level = input("Capability Level (integer between 1 and 5): ")
-        deadline = input("Task Deadline (DD-MM-YYYY): ")
-        assigned_to = ""
-        project_portion = input("Enter the portion of the project (e.g. 0.25 is 25%): ")
+        task_name = input(" Enter the name of the task: ")
+        assigned_project = input(" Provide the ID of the Project this task is assigned to (numeric): ")
+        priority = input(" Priority? (Enter High, Medium, or Low): ")
+        capability_level = input(" Capability Level (integer between 1 and 5): ")
+        deadline = input(" Task Deadline (DD-MM-YYYY): ")
+        project_portion = input(" Enter the portion of the project (e.g. 0.25 is 25%): ")
 
-        new_task = Task(task_name, assigned_project, priority, capability_level, deadline, assigned_to, project_portion)
-        self.tasks.append(new_task)
+
+        session = createSession()
+        exisiting_task = session.query(TaskModel).filter(
+            TaskModel.task_name == task_name & TaskModel.assigned_project == assigned_project).first()
+
+        if exisiting_task:
+            print("Task already exists in project " + str(assigned_project) + ". Please use another name for that project.")
+            session.close()
+            task_name = input( "Enter the name of the task: ")
+        #Creates a new Task object and inserts it into the database table.
+        else:
+            task_num = session.query(ProjModel.num_of_tasks).filter(ProjModel.project_id == assigned_project)
+            task_num = task_num + 1
+
+            new_task = TaskModel(
+                task_name = task_name,
+                assigned_project = assigned_project,
+                priority = priority,
+                capability_level = capability_level,
+                deadline = deadline,
+                assigned_to = "",
+                task_num_in_project = task_num,
+                project_portion = project_portion
+            )
+            session.add(new_task) #Add new task info to table
+            session.commit()
+            session.close()
 

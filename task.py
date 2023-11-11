@@ -50,21 +50,6 @@ class Task:
         self.project_portion = project_portion
 
     """
-    print_task_details(task): Prints all of the task attributes in clear format.
-
-    parameters:
-        task: a task object that system will print details of [TASK()] 
-    """
-    def print_task_details(self):
-        print("\nTask " + self.task_num_in_project + ": " + self.task_name)
-        print("  Assigned Project: " + self.assigned_project)
-        print("  Priority: " + self.priority)
-        print("  Capability Level: " + str(self.capability_level))
-        print("  Project Deadline: " + self.deadline)
-        print("  Who is completing the task: " + self.assigned_to)
-        print("  Portion of Project: " + str(100*self.project_portion) + "%")
-
-    """
     assign_task(self, assigned_to): will update the assigned_to attribute and
                                     assign the proper username of that user
 

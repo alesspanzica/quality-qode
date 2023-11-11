@@ -13,7 +13,6 @@ ProjectManager object will include Profile associated. Note all fields are requi
         find_project(project_id): 
         add_task(project): 
 """
-import sys
 from project import Project
 from task import Task
 
@@ -23,6 +22,9 @@ from database import createSession
 from model import Project as ProjectModel
 from model import Task as TaskModel
 from model import User as UserModel
+
+import warnings
+from sqlalchemy import exc as sa_exc
 
 class ProjectManager:
     """
@@ -60,7 +62,7 @@ class ProjectManager:
             session.add(new_project) #Add new user info to table
             session.commit()
             session.close()
-    
+
     """
     print_projects(self): Prints the names of the projects in the project list.
 
@@ -70,21 +72,76 @@ class ProjectManager:
     def print_projects():
         username = input('Please enter your username to view all team projects: ')
         
-        session = createSession()
-        manager = session.query(UserModel.manager).filter(UserModel.username == username)
-        your_projects = session.query(ProjectModel.project_name, ProjectModel.project_id).filter(ProjectModel.owner == manager).first()
+        with warnings.catch_warnings():
+            warnings.simplefilter("ignore", category=sa_exc.SAWarning)
+
+            session = createSession()
+            manager = session.query(UserModel.manager).filter(UserModel.username == username)
+            your_projects = session.query(ProjectModel).filter(ProjectModel.owner == manager).all()
+        
+            print("Below is the list of your manager's, " + manager + ",current projects.")
+            if your_projects:
+                print()
+                for i in your_projects:
+                    print("  Project " + str(i.project_id) + ": " + i.project_name)
+                print()
+                session.close()
+                return input("Enter the ID of the project you want to view and add tasks to. To create a project, enter C: ")
+            else:
+                session.close()
+                return input("No current projects. To create a project, enter C: ")
+
+    """
+    print_project_details(project): Prints all of the project attributes in clear format.
+
+    parameters:
+        self: current Project object that system will print details of [PROJECTS()] 
+    """
+    def print_project_details(project):
+        print("\nProject Name: " + project.project_name)
+        print("Project ID: " + str(project.project_id))
+        print("Project Deadline: " + project.deadline)
+        print("Project Priority: " + project.priority)
+        print("Project Manager: " + project.owner)
+        print("All " + str(project.num_of_tasks) + " assigned tasks: ")
+        Project.print_tasks(project.project_id)
     
-        if your_projects is None:
-            session.close()
-            return input("No current projects. To create a project, enter C: ")
+    """
+    print_task_details(task): Prints all of the task attributes in clear format.
+
+    parameters:
+        task: a task object that system will print details of [TASK()] 
+    """
+    def print_task_details(task):
+        print("\nTask " + str(task.task_num_in_project) + ": " + task.task_name)
+        print("  Assigned Project: " + task.assigned_project)
+        print("  Priority: " + task.priority)
+        print("  Capability Level: " + str(task.capability_level))
+        print("  Project Deadline: " + task.deadline)
+        percentage = float(task.project_portion) * 100
+        print("  Portion of Project: " + str(percentage) + "%")
+        if task.assigned_to == "":
+            print("  Task is currently UNASSIGNED.")
+            user_input = input("Enter A to assigned this task to a user, or enter 0 to continue: ")
+            if user_input == 'A':
+                ProjectManager.assign_task_to(task.task_num_in_project, task.assigned_project)
+            else:
+                return
         else:
-            '''
-            for i in your_projects:
-                print(i)
-            '''
-            print(your_projects)
-            session.close()
-            return input("Enter the ID of the project you want to view and add tasks to. To create a project, enter C: ")
+            print("  Task Assigned To: " + task.assigned_to)
+
+    def assign_task_to(task_num, project_id):
+        assigned = input(" Who would you like to assign this task to? Enter the username: ")
+        
+        session = createSession()
+        task = session.query(TaskModel).filter(TaskModel.assigned_project == project_id, TaskModel.task_num_in_project == task_num).first()
+        task.assigned_to = assigned
+        session.commit()
+        session.close()
+
+        print("Task successfully assigned to " + assigned + ".")
+        print()
+
 
     """
     find_project(project_id): this returns the project object with a specific
@@ -95,7 +152,7 @@ class ProjectManager:
     """
     def find_project(project_id):
         session = createSession()
-        project = session.query(ProjectModel).filter(ProjectModel.project_id == project_id)
+        project = session.query(ProjectModel).filter(ProjectModel.project_id == project_id).first()
         session.close()
         return project
 
@@ -110,8 +167,11 @@ class ProjectManager:
         project.create_task()
         print("Task created and added to Project " + str(project.project_id) + ".")
 
+
+
 # This is the main method that runs the Project Manager Page of the web app. 
 def project_main():
+
     print("*** ENTER 0 AT ANY TIME TO RETURN TO HOMEPAGE ***")
     print("Welcome to the Projects page! Here you can view or create projects!")
     user_input = ''
@@ -124,7 +184,6 @@ def project_main():
     print()
 
     while(1):
-        print("Below is the list of current projects.")
         user_input = ProjectManager.print_projects()
 
         if user_input == 'C':
@@ -144,7 +203,7 @@ def project_main():
                 print("Sorry, project doesn't exist. Try again.")
                 continue
             
-            Project.print_project_details(project)
+            ProjectManager.print_project_details(project)
 
             print()
             while(1):
@@ -153,7 +212,7 @@ def project_main():
                     Project.create_task(project.project_id)
                     print("Task created and added to Project " + str(project.project_id) + ".")
                     print()
-                    continue
+                    break
                 elif user_input.isdigit():
                     num = int(user_input)
                     if num == 0:
@@ -162,9 +221,9 @@ def project_main():
                     
                     else:
                         session = createSession()
-                        task = session.query(TaskModel).filter(TaskModel.task_num_in_project == num)
-                        print(task)
-                        # task.print_task_details()
+                        task = session.query(TaskModel).filter(TaskModel.task_num_in_project == num, TaskModel.assigned_project == project.project_id).first()
+                        print()
+                        ProjectManager.print_task_details(task)
                         session.close()
                         break
                 else:

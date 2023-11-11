@@ -50,13 +50,13 @@ class Project(Base):
     num_of_tasks = Column(Integer, unique=False, nullable=False)
 
     #To assign project informaion
-    """ def __init__(self, project_name, project_id, deadline, priority, owner, tasks):
+    def __init__(self, project_name, project_id, deadline, priority, owner, num_of_tasks):
         self.project_name=project_name
         self.project_id=project_id
         self.deadline=deadline
         self.priority=priority
         self.owner=owner
-        self.tasks=tasks """
+        self.num_of_tasks=num_of_tasks
 
 #To store task information
 class Task(Base):

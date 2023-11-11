@@ -79,7 +79,7 @@ class ProjectManager:
             manager = session.query(UserModel.manager).filter(UserModel.username == username)
             your_projects = session.query(ProjectModel).filter(ProjectModel.owner == manager).all()
         
-            print("Below is the list of your manager's, " + manager + ",current projects.")
+            print("Below is the list of your manager's current projects.")
             if your_projects:
                 print()
                 for i in your_projects:
@@ -176,11 +176,6 @@ def project_main():
     print("Welcome to the Projects page! Here you can view or create projects!")
     user_input = ''
 
-    '''
-    project_list = ProjectManager()
-    project_list.projects.append(Project("Front End Prototype", 2000, "20-10-2023", "Medium", "alessiapanzica", [Task("Make Documentation PDF", 2000, "Low", 2, "01-09-2023", "jasperlim", 0.05), Task("User Registration Classes", 2000, "High", 5, "01-10-2023", "abbeycameron", 0.25)]))
-    project_list.projects.append(Project("Front End User Testing", 3000, "2-11-2023", "Medium", "alessiapanzica", [Task("Make Documentation PDF", 3000, "Medium", 2, "15-09-2023", "jasperlim", 0.25), Task("Prepare User I/O File", 3000, "High", 2, "15-10-2023", "abbeycameron", 0.45), Task("Report Presentation Slide Deck", 3000, "Medium", 2, "01-10-2023", "abbeycameron", 0.10)]))
-    '''
     print()
 
     while(1):

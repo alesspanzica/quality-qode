@@ -40,7 +40,6 @@ class ProjectManager:
         deadline = input("Project Deadline (DD-MM-YYYY): ")
         priority = input("Priority: ")
         owner = input("Enter the username of the project's manager: ")
-        tasks = list()
         session = createSession()
         exisiting_proj = session.query(ProjectModel).filter(ProjectModel.project_id == project_id).first()
 
@@ -56,7 +55,7 @@ class ProjectManager:
                 deadline = deadline,
                 priority = priority,
                 owner = owner,
-                tasks = list()
+                num_of_tasks = 0
             )
             session.add(new_project) #Add new user info to table
             session.commit()
@@ -96,7 +95,7 @@ class ProjectManager:
     """
     def find_project(project_id):
         session = createSession()
-        project = session.query(ProjectModel).where(project_id = project_id)
+        project = session.query(ProjectModel).filter(ProjectModel.project_id == project_id)
         session.close()
         return project
 

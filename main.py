@@ -1,18 +1,24 @@
 import subprocess
-from project_manager import ProjectManager
+from sqlalchemy.orm import Session
+from database import createSession
 
-from user import User
-from user_profile import Profile
-from registration import Registration
-
+from model import Task as TaskModel
+from model import Project as ProjModel
 
 def main():
+    """     
+    session = createSession()
+    project = session.query(ProjModel).filter(ProjModel.project_id == 3000).first()
+    project.owner = "Emily Johnson"
+    session.commit()
+    session.close() 
+    """
+
     while(1):
         print()
         print("Welcome to Task Management, a web application that helps you manage your projects and tasks!")
 
         subprocess.run(["python", "registration.py"])
-        #global_username = Registration.reg_main()
         print()
 
         print("Now lets select a page you want to view!")

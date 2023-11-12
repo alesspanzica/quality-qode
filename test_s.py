@@ -12,7 +12,7 @@ def test_answer(monkeypatch, capsys):
     Profile.all_page()
     captured = capsys.readouterr()
     cap = "mollyd Molly Doe 6134444444 1 Collingwood St molly@email.com 2 Olivia Wilson\n"
-    assert captured.out == "mollyd Molly Doe 6134444444 1 Collingwood St molly@email.com 2 Sarah Mitchell\n"
+    assert captured.out == "mollyd Molly Doe 6134444444 1 Collingwood St molly@email.com 2 Olivia Wilson\n"
 
 def test_answer2 (monkeypatch, capsys):
     responses = iter(['cameronj', 'Edit', 'name', 'Cameron John', 'Exit'])
@@ -20,4 +20,4 @@ def test_answer2 (monkeypatch, capsys):
     captured = capsys.readouterr()
     Profile.all_page()
     captured = capsys.readouterr()
-    assert captured.out == "cameronj Cameron John 6137777777 4 Alfred St louis@email.con 5 Samuel Patel\n"
+    assert captured.out == "cameronj Cameron John 6137777777 4 Alfred St louis@email.com 5 Samuel Patel\n"

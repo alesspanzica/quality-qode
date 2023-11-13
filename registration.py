@@ -101,7 +101,8 @@ class Registration:
             session.close()
 
         print("Registration successful! Please log in.")
-        return Registration.login()
+        Registration.login()
+        return True
 
 
 #Login or Register Selection

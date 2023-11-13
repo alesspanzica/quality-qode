@@ -21,3 +21,11 @@ def test_answer2 (monkeypatch, capsys):
     Profile.all_page()
     captured = capsys.readouterr()
     assert captured.out == "cameronj Cameron John 6137777777 4 Alfred St louis@email.com 5 Samuel Patel\n"
+
+def test_answer3 (monkeypatch, capsys):
+    responses = iter(['nonsense', 'Exit'])
+    monkeypatch.setattr('builtins.input', lambda msg: next(responses))
+    captured = capsys.readouterr()
+    Profile.all_page()
+    captured = capsys.readouterr()
+    assert captured.out == "Unrecognized Input.\n", "Unrecognized Input"

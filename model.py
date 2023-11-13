@@ -4,7 +4,6 @@ Each class stores a different object, User, Project, or Task
 '''
 from sqlalchemy import Column, Integer, String
 from sqlalchemy.orm import DeclarativeBase
-from sqlalchemy import select
 
 
 #Creat declarative base

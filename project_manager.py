@@ -46,7 +46,7 @@ class ProjectManager:
         exisiting_proj = session.query(ProjectModel).filter(ProjectModel.project_id == project_id).first()
 
         if exisiting_proj:
-            print("Project already exists. Try again,")
+            print("Project already exists. Try again.")
             session.close()
         #Creates a new User object and inserts it into the database table.
         else:

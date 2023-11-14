@@ -134,7 +134,9 @@ class ProjectManager:
 
     def assign_task_to(task_num, project_id):
         assigned = input(" Who would you like to assign this task to? Enter the username: ")
-        
+        if assigned == "":
+            assigned = input("  You must enter a username. Please try again: ")
+
         session = createSession()
         task = session.query(TaskModel).filter(TaskModel.assigned_project == project_id, TaskModel.task_num_in_project == task_num).first()
         task.assigned_to = assigned

@@ -11,32 +11,38 @@ from database import createSession
 
 def test_assign_task_1(monkeypatch, capsys):
     session = createSession()
-    task = session.query(TaskModel).filter(TaskModel.task_name == "Develop Profile Page").first()
+    task = session.query(TaskModel).filter(TaskModel.task_num_in_project == 2, TaskModel.assigned_project == 1000).first()
     
-    if task.assigned_to is not "":
+    if task.assigned_to != "":
         task.assigned_to = ""
         session.commit()
     
     session.close()
     
-    responses = iter(['A', 'alesspanzica'])
+    responses = iter(['alesspanzica'])
     monkeypatch.setattr('builtins.input', lambda msg: next(responses))
     
-    ProjectManager.print_task_details(task)
+    ProjectManager.assign_task_to(2, 1000)
 
     captured = capsys.readouterr()
-    captured2 = captured.out
 
-    assert "Please enter your username to view all team projects: " in captured2
-    assert "Task successfully assigned to alessiapanzica." in captured2
+    assert "Task successfully assigned to alesspanzica." in captured.out
 
 def test_assign_task_2(monkeypatch, capsys):
-    responses = iter(['alesspanzica', '1', 'A', 'alesspanzica'])
+    session = createSession()
+    task = session.query(TaskModel).filter(TaskModel.task_num_in_project == 2, TaskModel.assigned_project == 1000).first()
+    
+    if task.assigned_to != "":
+        task.assigned_to = ""
+        session.commit()
+    
+    session.close()
+    
+    responses = iter(['', 'alesspanzica'])
     monkeypatch.setattr('builtins.input', lambda msg: next(responses))
     
-    ProjectManager.print_projects()
+    ProjectManager.assign_task_to(2, 1000)
 
     captured = capsys.readouterr()
-    cap = "Task successfully assigned to alesspanzica.\n"
-    assert captured.out == "Task successfully assigned to alesspanzica.\n"
-    
+
+    assert "Task successfully assigned to alesspanzica." in captured.out

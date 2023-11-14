@@ -38,6 +38,8 @@ class ProjectManager:
         print("Please enter Project details: ")
 
         project_name = input("Enter the name of the project: ")
+        if project_name == "":
+            project_name = input("You must enter a name. Try again: ")
         project_id = input("Enter the project's ID: ")
         deadline = input("Project Deadline (DD-MM-YYYY): ")
         priority = input("Priority: ")
@@ -140,7 +142,6 @@ class ProjectManager:
         session.close()
 
         print("Task successfully assigned to " + assigned + ".")
-        print()
 
 
     """

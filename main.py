@@ -7,15 +7,9 @@ from model import Project as ProjectModel
 from sqlalchemy import delete
 
 def main():
-    """     
-    session = createSession()
-    project = session.query(ProjModel).filter(ProjModel.project_id == 3000).first()
-    project.owner = "Emily Johnson"
-    session.commit()
-    session.close() 
-    """
 
     while(1):
+
         print()
         print("Welcome to Task Management, a web application that helps you manage your projects and tasks!")
 

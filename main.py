@@ -3,7 +3,8 @@ from sqlalchemy.orm import Session
 from database import createSession
 
 from model import Task as TaskModel
-from model import Project as ProjModel
+from model import Project as ProjectModel
+from sqlalchemy import delete
 
 def main():
     """     

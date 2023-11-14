@@ -41,14 +41,13 @@ class ProjectManager:
         project_id = input("Enter the project's ID: ")
         deadline = input("Project Deadline (DD-MM-YYYY): ")
         priority = input("Priority: ")
-        owner = input("Enter the username of the project's manager: ")
+        owner = input("Enter the name of the project's manager: ")
         session = createSession()
         exisiting_proj = session.query(ProjectModel).filter(ProjectModel.project_id == project_id).first()
 
         if exisiting_proj:
-            print("Project already exists. Please use another project ID and make a different project.")
+            print("Project already exists. Try again,")
             session.close()
-            project_name = input( "Enter Project ID: ")
         #Creates a new User object and inserts it into the database table.
         else:
             new_project = ProjectModel(
@@ -62,6 +61,7 @@ class ProjectManager:
             session.add(new_project) #Add new user info to table
             session.commit()
             session.close()
+            print("Project created successfully.")
 
     """
     print_projects(self): Prints the names of the projects in the project list.
@@ -183,7 +183,6 @@ def project_main():
 
         if user_input == 'C':
             ProjectManager.create_project()
-            print("Project Created!")
             print()
 
         elif user_input.isdigit():

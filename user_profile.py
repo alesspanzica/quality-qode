@@ -57,7 +57,7 @@ class Profile:
             Profile.profile_page(profile) #return to CLI for 
         
         elif (inp2 == "Exit") or (inp2 == "exit"):
-            exit()
+            return
         
         else:
             print("Unrecognized Input.")
@@ -73,8 +73,8 @@ class Profile:
         if inp in temp2: #if valid profile selected...
             Profile.profile_page(inp)
             session.close()
-        elif inp == "Exit":
-            exit()
+        elif inp == "Exit" or inp == "exit":
+            return
         else:
             print("Unrecognized Input.")
             Profile.all_page()        

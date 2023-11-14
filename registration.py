@@ -101,7 +101,8 @@ class Registration:
             session.close()
 
         print("Registration successful! Please log in.")
-        return Registration.login()
+        reg_main()
+        return True
 
 
 #Login or Register Selection
@@ -113,13 +114,16 @@ Output: Users will be directed to the page of their choosing,
 either login page or registration page.
 '''
 def reg_main():
-    choice = input("To Register, Press 1 \nTo Login, Press 2\n")
+    choice = input("To Register, Press 1 \nTo Login, Press 2\nTo Exit, Press 3\n")
     if choice == "1":
         return Registration.register()
     elif choice == "2":
         return Registration.login()
+    elif choice == "0":
+        return
     else:
         print("Invalid selection")
+        reg_main()
 
 if __name__ == "__main__":
     reg_main()

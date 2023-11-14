@@ -4,8 +4,8 @@ import unittest
 import subprocess
 
 from project_manager import ProjectManager
-from model import ProjectModel
-from model import TaskModel
+from model import Project as ProjectModel
+from model import Task as TaskModel
 
 from sqlalchemy.orm import Session
 from database import createSession

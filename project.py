@@ -74,32 +74,44 @@ class Project:
         self: the current instance of the Project object in this class
     """
     def create_task(project_id):
+        # BS
         print("Please enter task details: ")
 
         task_name = input(" Enter the name of the task: ")
+        
+        # BS (EMBEDDED?)
         if task_name == "":
             task_name = input("   You need to enter a valid task name. Try again: ")
+        # BE
+
         assigned_project = project_id
         priority = input(" Priority? (Enter High, Medium, or Low): ")
         capability_level = input(" Capability Level (integer between 1 and 5): ")
         deadline = input(" Task Deadline (DD-MM-YYYY): ")
         project_portion = input(" Enter the portion of the project (e.g. 0.25 is 25%): ")
+        # BE
 
-
+        # BS
         session = createSession()
         exisiting_task = session.query(TaskModel).filter(
             TaskModel.task_name == task_name, TaskModel.assigned_project == assigned_project).first()
+        # BE
 
         if exisiting_task:
+            # BS
             print("Task already exists in that project. Please use another name for that task.")
             session.close()
+            # B END
         #Creates a new Task object and inserts it into the database table.
         else:
+            # BLOCK START
             project = session.query(ProjModel).filter(ProjModel.project_id == assigned_project).first()
             
             task_num_in_project = project.num_of_tasks + 1
             project.num_of_tasks = task_num_in_project
+            # BLOCK END
             
+            # BLOCK START
             new_task = TaskModel(
                 task_name = task_name,
                 assigned_project = assigned_project,
@@ -114,4 +126,5 @@ class Project:
             session.close()
 
             print("Task successfully created.")
+            # BLOCK END
 

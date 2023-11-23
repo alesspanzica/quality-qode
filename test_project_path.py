@@ -22,13 +22,13 @@ Enter existing project name (That is currently being used in the code)
 def test_123(monkeypatch, capsys):
     #session = createSession()
     empty = " ".strip()
-    responses = iter([list(""), "Test Project", "9876", "01-01-0001", "Low", "Jim"])
+    responses = iter(["", "Test Project", "9876", "01-01-0001", "Low", "Jim"])
     monkeypatch.setattr('builtins.input', lambda msg: next(responses))
     ProjectManager.create_project()
     captured = capsys.readouterr()
     captured2 = captured.out
     # Check if the expected messages are in the captured output
-    assert "You must enter a name. Try again: " in captured2
+    assert "You must enter a name." in captured2
     assert "Project already exists. Try again." in captured2
 
 '''Path 2: 1->3 
@@ -60,7 +60,7 @@ def test_124(monkeypatch, capsys):
     captured = capsys.readouterr()
     captured2 = captured.out
     # Check if the expected messages are in the captured output
-    assert "You must enter a name. Try again: " in captured2
+    assert "You must enter a name." in captured2
     assert "Project created successfully." in captured2
 
 

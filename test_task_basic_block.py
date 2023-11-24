@@ -57,7 +57,7 @@ def test_create_task_b2(monkeypatch, capsys):
     captured = capsys.readouterr()
     captured2 = captured.out
 
-    assert "You must enter a name." in captured2
+    assert "   You need to enter a valid task name." in captured2
     assert "Task successfully created" in captured2
 
 # BASIC BLOCK 3 - valid input and goes into if (task already exists)
@@ -83,7 +83,7 @@ def test_does_task_b4(monkeypatch, capsys):
     captured = capsys.readouterr()
     captured2 = captured.out
 
-    assert "You must enter a name." in captured2
+    assert "   You need to enter a valid task name." in captured2
     assert "Task already exists in that project. Please use another name for that task." in captured2
 
 

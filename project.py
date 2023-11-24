@@ -79,7 +79,8 @@ class Project:
         task_name = input(" Enter the name of the task: ")
         
         if task_name == "":
-            task_name = input("   You need to enter a valid task name. Try again: ")
+            print("   You need to enter a valid task name.")
+            task_name = input("Try again: ")
 
         assigned_project = project_id
         priority = input(" Priority? (Enter High, Medium, or Low): ")

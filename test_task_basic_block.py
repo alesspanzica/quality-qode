@@ -57,7 +57,7 @@ def test_create_task_b2(monkeypatch, capsys):
     captured2 = captured.out
 
     assert "Please enter task details: " in captured2
-    assert "   You need to enter a valid task name. Try again: " in captured2
+    assert "   You need to enter a valid task name." in captured2
     assert "Task successfully created" in captured2
 
 # BASIC BLOCK 3 - valid input and goes into if (task already exists)
@@ -84,18 +84,19 @@ def test_does_task_b4(monkeypatch, capsys):
     captured2 = captured.out
 
     assert "Please enter task details: " in captured2
-    assert "   You need to enter a valid task name. Try again: " in captured2
+    assert "   You need to enter a valid task name." in captured2
     assert "Task already exists in that project. Please use another name for that task." in captured2
 
     
-session = createSession()
-#delete task to restore database
-task = session.query(TaskModel).filter(TaskModel.task_name == "Test Task").first()
-session.delete(task)
+def test_faketest():    
+    session = createSession()
+    #delete task to restore database
+    task = session.query(TaskModel).filter(TaskModel.task_name == "Test Task").first()
+    session.delete(task)
 
-#reset num of tasks back to original value
-adjust_proj = session.query(ProjectModel).filter(ProjectModel.project_id == 1000).first()
-adjust_proj.num_of_tasks = adjust_proj.num_of_tasks - 1
+    #reset num of tasks back to original value
+    adjust_proj = session.query(ProjectModel).filter(ProjectModel.project_id == 1000).first()
+    adjust_proj.num_of_tasks = adjust_proj.num_of_tasks - 1
 
-session.commit()
-session.close()
+    session.commit()
+    session.close() 

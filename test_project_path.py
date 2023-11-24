@@ -22,7 +22,7 @@ Checks for incorrect inputs.
 def test_123(monkeypatch, capsys):
     #session = createSession()
     empty = " ".strip()
-    responses = iter(["", "Test Project", "9876", "01-01-0001", "Low", "Jim"])
+    responses = iter(["", "Test Project2", "9877", "01-01-0001", "Low", "Jim"])
     monkeypatch.setattr('builtins.input', lambda msg: next(responses))
     ProjectManager.create_project()
     captured = capsys.readouterr()
@@ -36,7 +36,7 @@ Enter existing project name for project variable.
 Checks for incorrect inputs.
  '''
 def test_13(monkeypatch, capsys):
-    responses = iter(["Test Project", "9876", "01-01-0001", "Low", "Jim"])
+    responses = iter(["Test Project2", "9877", "01-01-0001", "Low", "Jim"])
     monkeypatch.setattr('builtins.input', lambda msg: next(responses))
     ProjectManager.create_project()
     captured = capsys.readouterr()

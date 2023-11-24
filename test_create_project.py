@@ -65,12 +65,12 @@ def test_create_project_missing(monkeypatch, capsys):
 
     # Check if the expected messages are in the captured output
     assert "Please enter Project details: " in captured2
-    assert "You must enter a name. Try again: " in captured2
+    assert "You must enter a name." in captured2
     assert "Project created successfully." in captured2
 
-
-session = createSession()
-project = session.query(ProjectModel).filter(ProjectModel.project_name == "Test Project").first()
-session.delete(project)
-session.commit()
-session.close()
+def test_faketest():
+    session = createSession()
+    project = session.query(ProjectModel).filter(ProjectModel.project_name == "Test Project").first()
+    session.delete(project)
+    session.commit()
+    session.close()

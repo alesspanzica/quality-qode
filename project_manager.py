@@ -39,9 +39,13 @@ class ProjectManager:
 
         project_name = input("Enter the name of the project: ")
         if project_name == "":
-            project_name = input("You must enter a name. Try again: ")
+            print("You must enter a name.")
+            project_name = input("Try again: ")
         project_id = input("Enter the project's ID: ")
         deadline = input("Project Deadline (DD-MM-YYYY): ")
+        print(project_name)
+        print(project_id)
+        print(deadline)
         priority = input("Priority: ")
         owner = input("Enter the name of the project's manager: ")
         session = createSession()

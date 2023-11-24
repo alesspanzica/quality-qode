@@ -88,7 +88,8 @@ def test_does_task_b4(monkeypatch, capsys):
     assert "   You need to enter a valid task name." in captured2
     assert "Task already exists in that project. Please use another name for that task." in captured2
 
-    
+
+# not included in the testing - restores the database
 def test_faketest():    
     session = createSession()
     #delete task to restore database

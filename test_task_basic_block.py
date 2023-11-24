@@ -1,16 +1,17 @@
-import sqlalchemy
+from unittest.mock import patch
 import pytest
-import unittest
-import subprocess
-
+from unittest import TestCase
+from registration import Registration
+from model import User as UserModel
+from sqlalchemy import delete
+from user import User
+from sqlalchemy.orm import Session
+from database import createSession
 from project_manager import ProjectManager
 from project import Project
 from model import Project as ProjectModel
 from model import Task as TaskModel
 from sqlalchemy import delete
-
-from sqlalchemy.orm import Session
-from database import createSession
 from sqlalchemy.exc import IntegrityError
 
 # BASIC BLOCK 1 - entire project function success

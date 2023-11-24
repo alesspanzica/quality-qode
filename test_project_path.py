@@ -14,15 +14,15 @@ from model import Task as TaskModel
 from sqlalchemy import delete
 from sqlalchemy.exc import IntegrityError
 
-'''Path 1: 1 ->2->3 
-Empty project name input = “” 
-Enter existing project name (That is currently being used in the code) 
-“Test Project” '''
-
+'''PATH 1: 1->2->3 
+Empty project name input for project variable then
+enter existing project name for project varaible.
+Checks for incorrect inputs.
+'''
 def test_123(monkeypatch, capsys):
     #session = createSession()
     empty = " ".strip()
-    responses = iter(["", "Test Project", "9876", "01-01-0001", "Low", "Jim"])
+    responses = iter(["", "Test Project2", "9877", "01-01-0001", "Low", "Jim"])
     monkeypatch.setattr('builtins.input', lambda msg: next(responses))
     ProjectManager.create_project()
     captured = capsys.readouterr()
@@ -31,11 +31,12 @@ def test_123(monkeypatch, capsys):
     assert "You must enter a name." in captured2
     assert "Project already exists. Try again." in captured2
 
-'''Path 2: 1->3 
-Enter existing project name 
-“Test Project” '''
+'''PATH 2: 1->3 
+Enter existing project name for project variable. 
+Checks for incorrect inputs.
+ '''
 def test_13(monkeypatch, capsys):
-    responses = iter(["Test Project", "9876", "01-01-0001", "Low", "Jim"])
+    responses = iter(["Test Project2", "9877", "01-01-0001", "Low", "Jim"])
     monkeypatch.setattr('builtins.input', lambda msg: next(responses))
     ProjectManager.create_project()
     captured = capsys.readouterr()
@@ -43,10 +44,10 @@ def test_13(monkeypatch, capsys):
     # Check if the expected messages are in the captured output
     assert "Project already exists. Try again." in captured2
 
-'''Path 3: 1->2->4 
-Enter empty project name -> “” 
-Enter successful new project name 
-“New Test Name” '''
+'''PATH 3: 1->2->4 
+Enter empty project name then enter successful new project name for project variable
+Checks for incorrect and then a correct input.
+'''
 def test_124(monkeypatch, capsys):
     session = createSession()
     firstrun = session.query(ProjectModel).filter(ProjectModel.project_name == "Test Project2").first()
@@ -64,9 +65,10 @@ def test_124(monkeypatch, capsys):
     assert "Project created successfully." in captured2
 
 
-'''Path 4: 1->4 
-Enter successful new project name 
-“Test New Name” (Or whatever variation it has to be to not clash with the above test) '''
+'''PATH 4: 1->4 
+Enter successful new project name.
+Checks for correct input.
+'''
 def test_14(monkeypatch, capsys):
     session = createSession()
     firstrun = session.query(ProjectModel).filter(ProjectModel.project_name == "Test Project2").first()

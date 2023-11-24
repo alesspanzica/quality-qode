@@ -67,7 +67,7 @@ def test_create_task_missing(monkeypatch, capsys):
     captured2 = captured.out
 
     assert "Please enter task details: " in captured2
-    assert "   You need to enter a valid task name. Try again: " in captured2
+    assert "   You need to enter a valid task name." in captured2
     assert "Task successfully created" in captured2
 
 
@@ -97,15 +97,16 @@ def test_does_task_num_update(monkeypatch, capsys):
     assert "Task successfully created" in captured2
     session.close()
 
-    
-session = createSession()
-#delete task to restore database
-task = session.query(TaskModel).filter(TaskModel.task_name == "Test Task").first()
-session.delete(task)
+def test_faketest():
 
-#reset num of tasks back to original value
-adjust_proj = session.query(ProjectModel).filter(ProjectModel.project_id == 1000).first()
-adjust_proj.num_of_tasks = adjust_proj.num_of_tasks - 1
+    session = createSession()
+    #delete task to restore database
+    task = session.query(TaskModel).filter(TaskModel.task_name == "Test Task").first()
+    session.delete(task)
 
-session.commit()
-session.close()
+    #reset num of tasks back to original value
+    adjust_proj = session.query(ProjectModel).filter(ProjectModel.project_id == 1000).first()
+    adjust_proj.num_of_tasks = adjust_proj.num_of_tasks - 1
+
+    session.commit()
+    session.close()

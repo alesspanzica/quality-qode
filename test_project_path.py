@@ -19,7 +19,7 @@ Empty project name input for project variable then
 enter existing project name for project varaible.
 Checks for incorrect inputs.
 '''
-def test_123(monkeypatch, capsys):
+def test_path_123(monkeypatch, capsys):
     #session = createSession()
     empty = " ".strip()
     responses = iter(["", "Test Project2", "9877", "01-01-0001", "Low", "Jim"])
@@ -35,7 +35,7 @@ def test_123(monkeypatch, capsys):
 Enter existing project name for project variable. 
 Checks for incorrect inputs.
  '''
-def test_13(monkeypatch, capsys):
+def test_path_13(monkeypatch, capsys):
     responses = iter(["Test Project2", "9877", "01-01-0001", "Low", "Jim"])
     monkeypatch.setattr('builtins.input', lambda msg: next(responses))
     ProjectManager.create_project()
@@ -48,7 +48,7 @@ def test_13(monkeypatch, capsys):
 Enter empty project name then enter successful new project name for project variable
 Checks for incorrect and then a correct input.
 '''
-def test_124(monkeypatch, capsys):
+def test_path_124(monkeypatch, capsys):
     session = createSession()
     firstrun = session.query(ProjectModel).filter(ProjectModel.project_name == "Test Project2").first()
     if firstrun:
@@ -69,7 +69,7 @@ def test_124(monkeypatch, capsys):
 Enter successful new project name.
 Checks for correct input.
 '''
-def test_14(monkeypatch, capsys):
+def test_path_14(monkeypatch, capsys):
     session = createSession()
     firstrun = session.query(ProjectModel).filter(ProjectModel.project_name == "Test Project2").first()
     if firstrun:

@@ -75,9 +75,7 @@ class ProjectManager:
     parameters:
         self: the instance of ProjectManager within this class
     """
-    def print_projects():
-        username = input('Please enter your username to view all team projects: ')
-        
+    def print_projects(username):
         with warnings.catch_warnings():
             warnings.simplefilter("ignore", category=sa_exc.SAWarning)
 
@@ -85,7 +83,7 @@ class ProjectManager:
             manager = session.query(UserModel.manager).filter(UserModel.username == username)
             your_projects = session.query(ProjectModel).filter(ProjectModel.owner == manager).all()
         
-            print("Below is the list of your manager's current projects.")
+            print("\nBelow is the list of your manager's current projects.")
             if your_projects:
                 print()
                 for i in your_projects:
@@ -184,9 +182,10 @@ def project_main():
     user_input = ''
 
     print()
+    username = input('Please enter your username to view all team projects: ')
 
     while(1):
-        user_input = ProjectManager.print_projects()
+        user_input = ProjectManager.print_projects(username)
 
         if user_input == 'C':
             ProjectManager.create_project()

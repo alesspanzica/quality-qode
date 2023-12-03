@@ -38,15 +38,15 @@ class Profile:
             session.close()    
             Profile.profile_page(profile)
 
-        elif inp2 == "Edit":
+        elif (inp2 == "Edit") or (inp2 == "edit"):
             session = createSession()
             x = session.query(UserModel).filter(UserModel.username == profile)
             for row in x :
                 print(row.username, row.name, row.phone_number, row.address, row.email, row.position, row.manager) 
-            inp3 = input("What field would you like to change?\n")
+            inp3 = input("What field would you like to change? Enter the value of the field (ex: 'Alessia Panzica'): ")
             q = session.query(UserModel).filter(UserModel == inp3)
             if session.query(q.exists()):
-                inp4 = input("Enter new value:\n")
+                inp4 = input("Enter new value: ")
                 session.query(UserModel).filter(UserModel.username == profile).update({inp3: inp4})
                 session.commit()
                 session.close()

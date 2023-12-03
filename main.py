@@ -1,21 +1,17 @@
 import subprocess
-from sqlalchemy.orm import Session
-from database import createSession
 
-from model import Task as TaskModel
-from model import Project as ProjectModel
-from sqlalchemy import delete
 
 def main():
+    print()
+    print("Welcome to Task Management, a web application that helps you manage your projects and tasks!")
+
+    reg = subprocess.run(["python", "registration.py"])
+    if reg.returncode == 1:
+        print("Program terminated. Goodbye!")
+        exit(1)
 
     while(1):
-
         print()
-        print("Welcome to Task Management, a web application that helps you manage your projects and tasks!")
-
-        subprocess.run(["python", "registration.py"])
-        print()
-
         print("Now lets select a page you want to view!")
         print(" Home page - Enter 1\n Project Manager Page - Enter 2\n User Profile Page - Enter 3")
         
@@ -25,7 +21,7 @@ def main():
             num_in = int(user_input)
             if num_in == 0:
                 print("Program terminated. Goodbye!")
-                break
+                exit(1)
             elif num_in == 1:
                 subprocess.run(["python", "home.py"])
             elif num_in == 2:
@@ -37,7 +33,7 @@ def main():
         else:
             print("Not proper input. Try again!")
 
-    return 0
+    exit(0)
 
 if __name__ == "__main__":
     main()

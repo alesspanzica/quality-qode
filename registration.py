@@ -114,13 +114,15 @@ Output: Users will be directed to the page of their choosing,
 either login page or registration page.
 '''
 def reg_main():
-    choice = input("To Register, Press 1 \nTo Login, Press 2\nTo Exit, Press 3\n")
+    choice = input("To Register, Press 1 \nTo Login, Press 2\nTo Exit, Press 0\n")
     if choice == "1":
-        return Registration.register()
+        Registration.register()
+        exit(0)
     elif choice == "2":
         return Registration.login()
+        exit(0)
     elif choice == "0":
-        return
+        exit(1)
     else:
         print("Invalid selection")
         reg_main()
